@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -env
+set -e
 
 RUN_MANAGE_PY="poetry run python src/manage.py"
 
@@ -10,4 +10,4 @@ $RUN_MANAGE_PY collectstatic --no-input
 echo  'Running migration...'
 $RUN_MANAGE_PY migrate --no-input
 
-exec poetry run src.config.wsgi:application -p 8000 -b 0.0.0.0
+$RUN_MANAGE_PY runserver 0.0.0.0:8000

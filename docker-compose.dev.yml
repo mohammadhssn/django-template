@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16.1-alpine3.19
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    networks:
+      - main
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      MODE_SETTINGS: ${MODE_SETTINGS}
+    volumes:
+      - ./src:/opt/project/src/
+      - ./src/static:/opt/project/src/static
+    networks:
+      - main
+
+networks:
+  main:
+
+volumes:
+  postgresql-data:
+    driver: local
