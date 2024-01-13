@@ -73,19 +73,19 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':
-        os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+            os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
         'NAME':
-        os.environ.get('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
+            os.environ.get('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
         'USER':
-        os.environ.get('DATABASE_USER'),
+            os.environ.get('DATABASE_USER'),
         'PASSWORD':
-        os.environ.get('DATABASE_PASSWORD'),
+            os.environ.get('DATABASE_PASSWORD'),
         'HOST':
-        os.environ.get('DATABASE_HOST'),
+            os.environ.get('DATABASE_HOST'),
         'PORT':
-        os.environ.get('DATABASE_PORT'),
+            os.environ.get('DATABASE_PORT'),
         'ATOMIC_REQUESTS':
-        True,
+            True,
         """
         TODO(dmu) MEDIUM: Unfortunately Daphne / ASGI / Django Channels do not properly reuse database connections
             and therefore we are getting resource (connection) leak that leads to the following:
@@ -95,7 +95,7 @@ DATABASES = {
             disconnect and implement connection pooling outside Django (BgBouncer or similar)
         """
         'CONN_MAX_AGE':
-        0,
+            0,
     }
 }
 
@@ -104,20 +104,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME':
-        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME':
-        'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
