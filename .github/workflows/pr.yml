@@ -1,0 +1,42 @@
+name: Quality Assurance
+on: [ pull_request, workflow_call ]
+
+jobs:
+  quality-assurance:
+    name: Quality Assurance
+    runs-on: ubuntu-latest
+    container: python:3.11.7-bullseye
+
+    services:
+      db:
+        image: postgres:16.1-alpine3.19
+        env:
+          POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
+          POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check Git Version
+        run: git --version
+      - name: Print Current Directory
+        run: pwd && ls
+
+
+      - name: Install Poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.7.1
+
+      - name: Update Git Configuration
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+      - name: Install Dependencies
+        run: make install && make install-pre-commit
+
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test
