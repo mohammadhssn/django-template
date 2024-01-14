@@ -35,6 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Local apps
+    'apps.accounts.apps.AccountsConfig',
+    # Third-Party apps
+    'rest_framework',
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -72,30 +77,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE':
-            os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME':
-            os.environ.get('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
-        'USER':
-            os.environ.get('DATABASE_USER'),
-        'PASSWORD':
-            os.environ.get('DATABASE_PASSWORD'),
-        'HOST':
-            os.environ.get('DATABASE_HOST'),
-        'PORT':
-            os.environ.get('DATABASE_PORT'),
-        'ATOMIC_REQUESTS':
-            True,
-        """
-        TODO(dmu) MEDIUM: Unfortunately Daphne / ASGI / Django Channels do not properly reuse database connections
-            and therefore we are getting resource (connection) leak that leads to the following:
-            django.db.utils.OperationalError: FATAL:  sorry, too many clients already
-            `'CONN_MAX_AGE': 0` is used as workaround. In case it notably affects performance
-            implement a solution that either closes database connections on WebSocket client
-            disconnect and implement connection pooling outside Django (BgBouncer or similar)
-        """
-        'CONN_MAX_AGE':
-            0,
+        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DATABASE_NAME', BASE_DIR / 'db.sqlite3'),
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT'),
     }
 }
 
@@ -138,3 +125,6 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom User
+AUTH_USER_MODEL = 'accounts.User'
