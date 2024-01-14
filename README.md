@@ -14,5 +14,9 @@
 5. Run linting checks:
    #### ` make lint `
 
-6. Start the server:
+6. Migrations:
+   #### ` make migrations `
+   #### ` make migrate `
+
+7. Start the server:
    #### ` make run-server `
