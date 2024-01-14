@@ -8,4 +8,5 @@ include(
     'base.py',
     MODE_SETTINGS + '.py',
     'logging.py',
+    'schema.py',
 )
